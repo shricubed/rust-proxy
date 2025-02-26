@@ -1,0 +1,3 @@
+- Implement basic TCP client -> p -> server
+- Protocol struct
+- Certificate authority
