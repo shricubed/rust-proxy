@@ -1,0 +1,6 @@
+[package]
+name = "net-proxy"
+edition = "2024"
+[dependencies]
+structopt = { version = "0.3", default-features = false }
+tokio = { version = "1.43.0", features = ["full"] }
