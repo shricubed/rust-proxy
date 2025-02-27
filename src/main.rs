@@ -4,14 +4,10 @@ use structopt::StructOpt;
 
 #[derive(StructOpt)]
 struct ProxyConfig {
-    #[structopt(short, long)]
+    #[structopt(short = "c")]
     local_addr: String,
-    #[structopt(short, long)]
+    #[structopt(short = "s")]
     remote_addr: String,
-    #[structopt(short = "lp")]
-    local_port: u16,
-    #[structopt(short = "rp")]
-    remote_port: u16,
 }
 
 
@@ -56,8 +52,8 @@ async fn handle_client(mut client: TcpStream, remote: String) {
 async fn main() -> io::Result<()> {
 
     let config = ProxyConfig::from_args();
-    let local = format!("{}:{}", config.local_addr, config.local_port);
-    let remote = format!("{}:{}", config.remote_addr, config.remote_port);
+    let local = config.local_addr.clone();
+    let remote = config.remote_addr.clone();
 
     handle_server(local, remote).await
 
