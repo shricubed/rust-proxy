@@ -2,7 +2,8 @@ use tokio::net::{TcpListener, TcpStream};
 use rustls::pki_types::pem::PemObject;
 use rustls::pki_types::{CertificateDer, ServerName, PrivateKeyDer};
 use structopt::StructOpt;
-use openssl::ssl::{SslMethod, SslAcceptor, SslContext, Ssl, SslStream, SSL_VERIFY_NONE};use openssl::x509::X509FileType;
+use openssl::ssl::{SslMethod, SslAcceptor, SslContext, Ssl, SslStream, SSL_VERIFY_NONE};
+use openssl::x509::X509FileType;
 use tokio::io::{copy, sink, split, stdin as tokio_stdin, stdout as tokio_stdout, AsyncReadExt, AsyncWriteExt};
 use tokio_rustls::{rustls, TlsConnector, TlsAcceptor};
 
