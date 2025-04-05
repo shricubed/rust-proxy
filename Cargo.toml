@@ -4,3 +4,4 @@ edition = "2024"
 [dependencies]
 structopt = { version = "0.3", default-features = false }
 tokio = { version = "1.43.0", features = ["full"] }
+tokio-rustls = { version = "0.26.2", default-features = true }
