@@ -17,13 +17,23 @@ struct ProxyConfig {
     local_addr: String,
     #[structopt(short = "s")]
     remote_addr: String,
+    #[structopt(short = "f")]
+    cafile: String,
+    #[structopt(short = "k")]
+    key: String,
+    #[structopt(short = "o")]
+    keep_open: bool,
 }
 
 
-async fn handle_server(local: String, remote: String, cafile: PathBuf, key: PathBuf, keep_open: bool) -> io::Result<()> {
+async fn handle_server() -> io::Result<()> {
 
-    let certs = CertificateDer::pem_file_iter(cafile)?;
-    let pkey = PrivateKeyDer::from_pem_file(key)?;
+    let pconfig = ProxyConfig::from_args();
+
+    let certs = CertificateDer::pem_file_iter(pconfig.cafile)?;
+    let pkey = PrivateKeyDer::from_pem_file(pconfig.key)?;
+    let local = pconfig.local_addr.clone();
+    let remote = pconfig.remote_addr.clone();
     let config = rustls::ServerConfig::builder()
         .with_safe_defaults()
         .with_no_client_auth()
@@ -33,7 +43,7 @@ async fn handle_server(local: String, remote: String, cafile: PathBuf, key: Path
     let listener = TcpListener::bind(local).await?;
     println!("Listening on {}", local);
 
-    loop {
+    loop  {
         let (client, ip) = listener.accept().await?;
         let acceptor = acceptor.clone();
 
