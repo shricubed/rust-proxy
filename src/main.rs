@@ -82,9 +82,16 @@ async fn handle_server() -> io::Result<()> {
 }
 
 async fn handle_client(mut client: TcpStream, remote: String, message: String, cafile: PathBuf) {
+
+    let pconfig = ProxyConfig::from_args();
+    let certs = CertificateDer::pem_file_iter(pconfig.cafile)?;
+    let pkey = PrivateKeyDer::from_pem_file(pconfig.key)?;
+    let local = pconfig.local_addr.clone();
+    let remote = pconfig.remote_addr.clone();
+
     
     let mut root_store = rustls::RootCertStore::empty();
-    for cert in CertificateDer::pem_file_iter(cafile)? {
+    for cert in certs? {
         root_store.add(cert?)?;
     }
 
