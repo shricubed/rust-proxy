@@ -81,7 +81,7 @@ async fn handle_server() -> io::Result<()> {
 
 }
 
-async fn handle_client(mut client: TcpStream, remote: String, message: String, cafile: PathBuf) {
+async fn handle_client(mut client: TcpStream) {
 
     let pconfig = ProxyConfig::from_args();
     let certs = CertificateDer::pem_file_iter(pconfig.cafile)?;
